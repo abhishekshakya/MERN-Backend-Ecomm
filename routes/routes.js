@@ -21,6 +21,18 @@ router.get("/:category", async (req, res, next) => {
   }
 });
 
+router.get("/:category/:id", async (req, res, next) => {
+  try {
+    const query = await item
+      .find({ category: req.params.category })
+      .limit(Number(req.params.id));
+    const data = await query;
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/add", async (req, res, next) => {
   //  change this before end
   try {
