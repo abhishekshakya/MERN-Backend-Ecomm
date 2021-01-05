@@ -11,7 +11,17 @@ router.get("/items", async (req, res, next) => {
   }
 });
 
-router.get("/:category", async (req, res, next) => {
+router.get("/item/:id", async (req, res, next) => {
+  try {
+    const query = await item.find({ _id: req.params.id });
+    const data = await query;
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/search/:category", async (req, res, next) => {
   try {
     const query = await item.find({ category: req.params.category });
     const data = await query;
@@ -21,11 +31,11 @@ router.get("/:category", async (req, res, next) => {
   }
 });
 
-router.get("/:category/:id", async (req, res, next) => {
+router.get("/search/:category/:count", async (req, res, next) => {
   try {
     const query = await item
       .find({ category: req.params.category })
-      .limit(Number(req.params.id));
+      .limit(Number(req.params.count));
     const data = await query;
     res.status(200).json(data);
   } catch (error) {
@@ -46,6 +56,16 @@ router.post("/add", async (req, res, next) => {
       await product.save();
     }
     res.status(201).json(req.body);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/delete", async (req, res, next) => {
+  try {
+    // console.log(req.body);
+    await item.deleteMany(req.body);
+    res.status(200).send("Deleted successfully" + req.body);
   } catch (error) {
     next(error);
   }

@@ -2,15 +2,25 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./routes/routes");
 const mongoose = require("mongoose");
+const auth = require("./routes/auth");
+const cart = require("./routes/cart");
+const wishList = require("./routes/wishlist");
+require("dotenv").config();
+
+// console.log(process.env.URL);
 
 const PORT = process.env.PORT || 5000;
 const app = express();
-const URL =
-  "mongodb+srv://admin:4UFr6IR3p1hdUyTL@cluster0.cy2dk.mongodb.net/livingDesireDB?retryWrites=true&w=majority";
+const URL = process.env.URL;
 
 mongoose.connect(
   URL,
-  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true },
+  {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  },
   () => console.log("connected to the database")
 );
 
@@ -22,6 +32,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", router);
+app.use("/auth", auth);
+app.use("/cart", cart);
+app.use("/wishlist", wishList);
 
 //error handling
 app.use((req, res, next) => {
