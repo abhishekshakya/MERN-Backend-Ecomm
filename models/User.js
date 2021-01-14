@@ -1,5 +1,21 @@
 const mongoose = require("mongoose");
 
+const addressSchema = new mongoose.Schema({
+  heading: {
+    type: String,
+    required: true,
+    default: "Address",
+  },
+  add: {
+    type: String,
+    required: true,
+  },
+  user_default: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -22,9 +38,10 @@ const userSchema = new mongoose.Schema({
   orders: {
     type: [String],
   },
-  address: {
-    type: [String],
-  },
+  address: [addressSchema],
 });
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = {
+  Users: mongoose.model("Users", userSchema),
+  Address: mongoose.model("Address", addressSchema),
+};

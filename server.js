@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const cart = require("./routes/cart");
 const wishList = require("./routes/wishlist");
+const orders = require("./routes/order");
+const address = require("./routes/address");
+
 require("dotenv").config();
 
 // console.log(process.env.URL);
@@ -35,6 +38,8 @@ app.use("/api", router);
 app.use("/auth", auth);
 app.use("/cart", cart);
 app.use("/wishlist", wishList);
+app.use("/order", orders);
+app.use("/address", address);
 
 //error handling
 app.use((req, res, next) => {

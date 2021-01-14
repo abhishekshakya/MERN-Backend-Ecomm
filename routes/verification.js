@@ -7,10 +7,10 @@ const verification = (req, res, next) => {
     process.env.SECRET,
     (err, decoded) => {
       if (err) {
-        console.log("err");
+        // console.log("err");
         next(new Error("Invalid Token"));
       } else {
-        console.log("welcome");
+        // console.log("welcome");
         next();
       }
     }

@@ -1,6 +1,16 @@
 const router = require("express").Router();
-const Users = require("../models/User");
+const { Users } = require("../models/User");
 const verification = require("./verification");
+
+/* (verification required)
+BASE_URL/cart/items   =>  acceptes body data of {user_id, item_id, add(true/false) } 
+                          if add === true
+                            checks if item if already in cart with user_id
+                              if not then it adds up to databse
+                          else
+                            checks if item if already in cart with user_id
+                              deletes cart item from database
+*/
 
 router.post("/items", verification, async (req, res, next) => {
   // console.log(req.body);

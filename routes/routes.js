@@ -1,6 +1,16 @@
 const router = require("express").Router();
 const item = require("../models/item");
 
+/*
+BASE_URL/api/items  =>  return all items present in db
+
+BASE_URL/api/items/:id  => returns item info with item_id as id
+
+BASE_URL/api/search/:category  => returns all items from item_category as category
+
+BASE_URL/api/search/:category/:count  => returns count no of items from item_category as category
+*/
+
 router.get("/items", async (req, res, next) => {
   try {
     const responseQuery = item.find();
@@ -42,6 +52,8 @@ router.get("/search/:category/:count", async (req, res, next) => {
     next(error);
   }
 });
+
+//ONLY FOR THE DEVELOPMENT PHASE//..........................
 
 router.post("/add", async (req, res, next) => {
   //  change this before end

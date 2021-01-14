@@ -1,9 +1,25 @@
 const router = require("express").Router();
-const Users = require("../models/User");
+const { Users } = require("../models/User");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verification = require("./verification");
+
+/*(verification required)
+BASE_URL/auth/:id  =>  finds user info from db
+
+BASE_URL/auth/signup  =>  accepts body with {username, email, password}
+                          checks if email already exists in db
+                            if not then it creates new user in db and save hashed password in db
+
+                          returns json object with {user_id, user_name, jsonWebToken}
+
+BASE_URL/auth/login  =>  accepts body with { email, password }
+                          checks if email already exists in db
+                            if yes then match request.body.password with one in db
+
+                          returns json object with {user_id, user_name, jsonWebToken}
+*/
 
 const SignInSchema = Joi.object({
   email: Joi.string()
@@ -18,10 +34,6 @@ const SignUpSchema = Joi.object({
     .email({ tlds: { allow: false } })
     .required(),
   password: Joi.string().min(6).trim().required(),
-  // wishList: Joi.array().items(Joi.string()),
-  // cart: Joi.array().items(Joi.string()),
-  // orders: Joi.array().items(Joi.string()),
-  // address: Joi.array().items(Joi.string()),
 });
 
 router.get("/:id", verification, async (req, res) => {
