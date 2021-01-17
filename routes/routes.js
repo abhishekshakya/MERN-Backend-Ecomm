@@ -9,6 +9,8 @@ BASE_URL/api/items/:id  => returns item info with item_id as id
 BASE_URL/api/search/:category  => returns all items from item_category as category
 
 BASE_URL/api/search/:category/:count  => returns count no of items from item_category as category
+
+availiable categories = Mugs, Bedsheets, T-Shirts, Curtains, Clothes 
 */
 
 router.get("/items", async (req, res, next) => {
@@ -38,6 +40,25 @@ router.get("/search/:category", async (req, res, next) => {
     res.status(200).json(data);
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/query", async (req, res, next) => {
+  try {
+    // console.log(req.query.str);
+    let str = req.query.str.split(" ").join(".*");
+    const query = await item
+      .find(
+        {
+          title: { $regex: new RegExp(".*" + str + ".*", "i") },
+        },
+        { title: 1 }
+      )
+      .limit(10);
+    const data = await query;
+    res.status(200).json(data);
+  } catch (err) {
+    next(err);
   }
 });
 
