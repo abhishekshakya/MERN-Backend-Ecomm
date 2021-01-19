@@ -7,6 +7,7 @@ const cart = require("./routes/cart");
 const wishList = require("./routes/wishlist");
 const orders = require("./routes/order");
 const address = require("./routes/address");
+const pagination = require("./routes/pagination");
 
 require("dotenv").config();
 
@@ -40,6 +41,7 @@ app.use("/cart", cart);
 app.use("/wishlist", wishList);
 app.use("/order", orders);
 app.use("/address", address);
+app.use("/pagination", pagination);
 
 //error handling
 app.use((req, res, next) => {
