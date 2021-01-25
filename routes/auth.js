@@ -69,6 +69,7 @@ router.post("/signup", async (req, res, next) => {
           name: dbUser.name,
           _id: dbUser._id,
           token,
+          admin: dbUser.admin,
         });
       } else {
         throw new Error("User already exists :(");
@@ -110,6 +111,7 @@ router.post("/login", async (req, res, next) => {
             name: dbUser.name,
             _id: dbUser._id,
             token,
+            admin: dbUser.admin,
           });
         } else {
           //invalid password

@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const item = require("../models/item");
+const { Users } = require("../models/User");
+const verification = require("./verification");
 
 /*
 BASE_URL/api/items  =>  return all items present in db
@@ -76,29 +78,32 @@ router.get("/search/:category/:count", async (req, res, next) => {
 
 //ONLY FOR THE DEVELOPMENT PHASE//..........................
 
-router.post("/add", async (req, res, next) => {
+router.post("/add", verification, async (req, res, next) => {
   //  change this before end
   try {
-    if (req.body.length) {
-      req.body.map(async (obj) => {
-        const product = new item(obj);
-        await product.save();
-      });
-    } else {
-      const product = new item(obj);
-      await product.save();
-    }
-    res.status(201).json(req.body);
+    // if (req.body.length) {
+    //   req.body.map(async (obj) => {
+    //     const product = new item(obj);
+    //     await product.save();
+    //   });
+    // } else {
+    const product = new item(req.body);
+    const resp = await product.save();
+    // }
+    // console.log(resp);
+    res.status(201).send(resp._id);
   } catch (error) {
+    // console.log(error);
     next(error);
   }
 });
 
-router.delete("/delete", async (req, res, next) => {
+router.delete("/delete", verification, async (req, res, next) => {
   try {
-    // console.log(req.body);
-    await item.deleteMany(req.body);
-    res.status(200).send("Deleted successfully" + req.body);
+    console.log(req.body._id);
+    await item.deleteOne({ _id: req.body._id });
+    // await Users.deleteMany({item_id: req.body._id});
+    res.status(200).send("Deleted successfully " + req.body._id);
   } catch (error) {
     next(error);
   }

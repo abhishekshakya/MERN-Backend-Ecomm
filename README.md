@@ -1,4 +1,5 @@
 # MERN-Backend-Ecomm
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -15,7 +16,6 @@ Backend support for [Project](https://github.com/abhishekshakya/MERN-frontend-Ec
 - [jsonWebTokens](https://jwt.io/)
 - [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [My FrontEnd Repo](https://github.com/abhishekshakya/MERN-frontend-Ecomm)
-
 
 ## Getting Started
 
@@ -55,7 +55,7 @@ See the [open issues](https://github.com/abhishekshakya/mern-frontend-ecomm/issu
 - [x] make user, order, cart model
 - [x] make routes for user, order, cart
 - [x] verification middleware for autherization
-- [ ] add pagination query to DB
+- [x] add pagination query to DB
 - [ ] add payment gateway APIs(not quite sure)
 
 <!-- CONTRIBUTING -->

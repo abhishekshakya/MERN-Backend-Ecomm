@@ -13,7 +13,7 @@ BASE_URL/wishlist/items   =>  acceptes body data of {user_id, item_id, add(true/
 */
 
 router.post("/items", verification, async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const _id = req.body._id;
   const item_id = req.body.item_id;
   const add = req.body.add;

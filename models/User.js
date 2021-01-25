@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
   orders: {
     type: [String],
   },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   address: [addressSchema],
 });
 
