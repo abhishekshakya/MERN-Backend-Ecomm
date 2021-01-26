@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const item = require("../models/item");
+const Order = require("../models/Order");
 const { Users } = require("../models/User");
 const verification = require("./verification");
 
@@ -76,7 +77,7 @@ router.get("/search/:category/:count", async (req, res, next) => {
   }
 });
 
-//ONLY FOR THE DEVELOPMENT PHASE//..........................
+////for admin to add or delete product
 
 router.post("/add", verification, async (req, res, next) => {
   //  change this before end
@@ -100,8 +101,30 @@ router.post("/add", verification, async (req, res, next) => {
 
 router.delete("/delete", verification, async (req, res, next) => {
   try {
-    console.log(req.body._id);
-    await item.deleteOne({ _id: req.body._id });
+    await item.deleteOne({ _id: req.body.item_id });
+
+    await Users.updateMany(
+      { wishList: { $all: req.body.item_id } },
+      { $pull: { wishList: req.body.item_id } }
+    );
+
+    await Users.updateMany(
+      { cart: { $all: req.body.item_id } },
+      { $pull: { cart: req.body.item_id } }
+    );
+
+    const resp = await Order.find({ item_id: req.body.item_id });
+    // console.log(resp);
+
+    resp.forEach(async (order) => {
+      await Users.updateMany(
+        { orders: { $all: order._id } },
+        { $pull: { orders: order._id } }
+      );
+      await Order.deleteOne({ _id: order._id });
+    });
+
+    // console.log(resp1, resp2);
     // await Users.deleteMany({item_id: req.body._id});
     res.status(200).send("Deleted successfully " + req.body._id);
   } catch (error) {
